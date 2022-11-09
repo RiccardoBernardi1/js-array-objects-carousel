@@ -1,7 +1,46 @@
 /* RESET */
-
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+/* COMMON */
+.container{
+    max-width: 62.5rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+/* MAIN */
+.item{
+    display: none;
+    position: relative;
+    width: 50rem;
+    height: 25rem;
+}
+.show.item{
+    display: block;
+}
+.image{
+    max-height: 100%;
+    min-width: 100%;
+    object-fit: fill;
+}
+.btn{
+    position: absolute;
+    min-height: 1.5625rem;
+    min-width: 1.5625rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.5625rem;
+    translate: -50%;
+    left: 50%;
+}
+.btn-up{
+    top: .5rem;
+}
+.btn-down{
+    bottom: .5rem;
 }
