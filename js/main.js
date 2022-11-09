@@ -47,16 +47,15 @@ images.forEach((item) => {
     items=document.querySelectorAll(".item");
     items[active].classList.add("show");
 });
-let appended=false
  images.forEach((item) => {
     const template = document.getElementById("thumbnail-template").content.cloneNode(true);
-    if (appended===false){
-        items[active].append(template)
-        appended=true
-        thumbnail=document.querySelector(".thumbnails");
-        thumbnail.append(btnUp);
-        thumbnail.append(btnDown);
-    }
+    items[active].append(template)
+    thumbnail=document.querySelector(".thumbnails");
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
+    const thumb=document.createElement("img");
+    thumb.src=item.image;
+    thumbnail.append(thumb);
 });
 const thumb=document.querySelector(".thumbnails");
 btnUp.addEventListener("click",function() {
@@ -67,7 +66,7 @@ btnUp.addEventListener("click",function() {
         active= active-1;
     }
     items[active].classList.add("show");
-    items[active].append(thumb)
+    items[active].append(thumb);
     thumb.append(btnUp);
     thumb.append(btnDown);
 })
@@ -79,7 +78,7 @@ btnDown.addEventListener("click",function() {
         active= active+1;
     }
     items[active].classList.add("show");
-    items[active].append(thumb)
+    items[active].append(thumb);
     thumb.append(btnUp);
     thumb.append(btnDown);
-})
+});
