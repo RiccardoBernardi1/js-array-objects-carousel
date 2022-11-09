@@ -38,6 +38,10 @@ btnUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
 let active =0;
 let items
 let thumbnail
+let thumb
+let appended=false;
+let actualThumb
+let actualThumbId
 images.forEach((item) => {
     const template = document.getElementById("carousel-template").content.cloneNode(true);
     template.querySelector(".image").src = item.image;
@@ -47,38 +51,61 @@ images.forEach((item) => {
     items=document.querySelectorAll(".item");
     items[active].classList.add("show");
 });
- images.forEach((item) => {
+images.forEach((item,index) => {
     const template = document.getElementById("thumbnail-template").content.cloneNode(true);
-    items[active].append(template)
+    if(appended==false){
+        items[active].append(template)
+        appended=true;
+    }
     thumbnail=document.querySelector(".thumbnails");
     thumbnail.append(btnUp);
     thumbnail.append(btnDown);
-    const thumb=document.createElement("img");
+    thumb=document.createElement("img");
     thumb.src=item.image;
+    thumb.id=index;
+    if(active==thumb.id){
+        thumb.classList.add("border")
+    }
     thumbnail.append(thumb);
 });
-const thumb=document.querySelector(".thumbnails");
+thumbnail=document.querySelector(".thumbnails");
+let imgThumb=document.querySelectorAll(".thumbnails img")
 btnUp.addEventListener("click",function() {
     document.querySelector(".item.show").classList.remove("show");
+    actualThumb=document.querySelector(".border")
+    actualThumb.classList.remove("border");
     if (active==0){
-        active=items.length-1
+        active=items.length-1;
     }else{
         active= active-1;
     }
+    imgThumb.forEach((img,index)=>{
+        if(index===active){
+            img.classList.add("border")
+        }
+    })
     items[active].classList.add("show");
-    items[active].append(thumb);
-    thumb.append(btnUp);
-    thumb.append(btnDown);
+    items[active].append(thumbnail);
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
+    
 })
 btnDown.addEventListener("click",function() {
     items[active].classList.remove("show");
+    actualThumb=document.querySelector(".border")
+    actualThumb.classList.remove("border");
     if (active==items.length-1){
         active=0;
     }else{
         active= active+1;
     }
+    imgThumb.forEach((img,index)=>{
+        if(index===active){
+            img.classList.add("border")
+        }
+    })
     items[active].classList.add("show");
-    items[active].append(thumb);
-    thumb.append(btnUp);
-    thumb.append(btnDown);
+    items[active].append(thumbnail);
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
 });
