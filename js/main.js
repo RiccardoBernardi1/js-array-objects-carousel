@@ -83,7 +83,7 @@ btnUp.addEventListener("click",function() {
         if(index===active){
             img.classList.add("border")
         }
-    })
+    });
     items[active].classList.add("show");
     items[active].append(thumbnail);
     thumbnail.append(btnUp);
@@ -109,3 +109,20 @@ btnDown.addEventListener("click",function() {
     thumbnail.append(btnUp);
     thumbnail.append(btnDown);
 });
+imgThumb.forEach((img,index)=>{
+    img.addEventListener("click",function(){
+        actualThumb=document.querySelector(".border");
+        actualThumb.classList.remove("border");
+        items[active].classList.remove("show");
+        active=index;
+        items[active].classList.add("show");
+        items[active].append(thumbnail);
+        thumbnail.append(btnUp);
+        thumbnail.append(btnDown);
+        imgThumb.forEach((img,index)=>{
+            if(index===active){
+                img.classList.add("border")
+            }
+        })
+    })
+})
