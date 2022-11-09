@@ -64,7 +64,7 @@ images.forEach((item,index) => {
     thumb.src=item.image;
     thumb.id=index;
     if(active==thumb.id){
-        thumb.classList.add("border")
+        thumb.classList.add("border");
     }
     thumbnail.append(thumb);
 });
@@ -89,7 +89,7 @@ btnUp.addEventListener("click",function() {
     thumbnail.append(btnUp);
     thumbnail.append(btnDown);
     
-})
+});
 btnDown.addEventListener("click",function() {
     items[active].classList.remove("show");
     actualThumb=document.querySelector(".border")
@@ -103,7 +103,7 @@ btnDown.addEventListener("click",function() {
         if(index===active){
             img.classList.add("border")
         }
-    })
+    });
     items[active].classList.add("show");
     items[active].append(thumbnail);
     thumbnail.append(btnUp);
@@ -123,6 +123,25 @@ imgThumb.forEach((img,index)=>{
             if(index===active){
                 img.classList.add("border")
             }
-        })
-    })
-})
+        });
+    });
+});
+const autoplay=setInterval(function(){
+    items[active].classList.remove("show");
+    actualThumb=document.querySelector(".border");
+    actualThumb.classList.remove("border");
+    if (active==items.length-1){
+        active=0;
+    }else{
+        active+=+1;
+    }
+    items[active].classList.add("show");
+    items[active].append(thumbnail);
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
+    imgThumb.forEach((img,index)=>{
+        if(index===active){
+            img.classList.add("border")
+        }
+    });
+},3000);
