@@ -29,13 +29,44 @@ const images = [
     }
 ];
 const container=document.querySelector(".container");
+const btnUp= document.createElement("button");
+const btnDown= document.createElement("button");
+btnUp.classList.add("btn","btn-up");
+btnDown.classList.add("btn","btn-down");
+btnDown.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+btnUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
 let active =0;
+let items
 images.forEach((item) => {
     const template = document.getElementById("carousel-template").content.cloneNode(true);
     template.querySelector(".image").src = item.image;
     template.querySelector(".text h2").innerHTML= item.title;
     template.querySelector(".text p").innerHTML= item.text;
     container.append(template);
-    const items=document.querySelectorAll(".item")
+    items=document.querySelectorAll(".item")
     items[active].classList.add("show");
+});
+items[active].append(btnUp);
+items[active].append(btnDown);
+btnUp.addEventListener("click",function() {
+    document.querySelector(".item.show").classList.remove("show");
+    if (active==0){
+        active=items.length-1
+    }else{
+        active= active-1;
+    }
+    items[active].classList.add("show");
+    items[active].append(btnUp);
+    items[active].append(btnDown);
+})
+btnDown.addEventListener("click",function() {
+    items[active].classList.remove("show");
+    if (active==items.length-1){
+        active=0;
+    }else{
+        active= active+1;
+    }
+    items[active].classList.add("show");
+    items[active].append(btnUp);
+    items[active].append(btnDown);
 })
