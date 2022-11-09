@@ -37,17 +37,28 @@ btnDown.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
 btnUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
 let active =0;
 let items
+let thumbnail
 images.forEach((item) => {
     const template = document.getElementById("carousel-template").content.cloneNode(true);
     template.querySelector(".image").src = item.image;
     template.querySelector(".text h2").innerHTML= item.title;
     template.querySelector(".text p").innerHTML= item.text;
     container.append(template);
-    items=document.querySelectorAll(".item")
+    items=document.querySelectorAll(".item");
     items[active].classList.add("show");
 });
-items[active].append(btnUp);
-items[active].append(btnDown);
+let appended=false
+ images.forEach((item) => {
+    const template = document.getElementById("thumbnail-template").content.cloneNode(true);
+    if (appended===false){
+        items[active].append(template)
+        appended=true
+        thumbnail=document.querySelector(".thumbnails");
+        thumbnail.append(btnUp);
+        thumbnail.append(btnDown);
+    }
+});
+const thumb=document.querySelector(".thumbnails");
 btnUp.addEventListener("click",function() {
     document.querySelector(".item.show").classList.remove("show");
     if (active==0){
@@ -56,8 +67,9 @@ btnUp.addEventListener("click",function() {
         active= active-1;
     }
     items[active].classList.add("show");
-    items[active].append(btnUp);
-    items[active].append(btnDown);
+    items[active].append(thumb)
+    thumb.append(btnUp);
+    thumb.append(btnDown);
 })
 btnDown.addEventListener("click",function() {
     items[active].classList.remove("show");
@@ -67,6 +79,7 @@ btnDown.addEventListener("click",function() {
         active= active+1;
     }
     items[active].classList.add("show");
-    items[active].append(btnUp);
-    items[active].append(btnDown);
+    items[active].append(thumb)
+    thumb.append(btnUp);
+    thumb.append(btnDown);
 })
