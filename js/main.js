@@ -42,11 +42,118 @@ let thumb
 let appended=false;
 let actualThumb
 let actualThumbId
+let autoplay
+let autoplayReverse
+let running=false;
+let runningReverse=false;
 images.forEach((item) => {
     const template = document.getElementById("carousel-template").content.cloneNode(true);
     template.querySelector(".image").src = item.image;
     template.querySelector(".text h2").innerHTML= item.title;
     template.querySelector(".text p").innerHTML= item.text;
+    const btnStart=template.querySelector(".btn.start");
+    const btnStop=template.querySelector(".btn.stop");
+    const btnReverse=template.querySelector(".btn.reverse");
+    btnStart.addEventListener("click",function(){
+        if(running===false&&runningReverse===false){
+            autoplay=setInterval(function(){
+                items[active].classList.remove("show");
+                actualThumb=document.querySelector(".border");
+                actualThumb.classList.remove("border");
+                if (active==items.length-1){
+                    active=0;
+                }else{
+                    active+=1;
+                }
+                items[active].classList.add("show");
+                items[active].append(thumbnail);
+                thumbnail.append(btnUp);
+                thumbnail.append(btnDown);
+                imgThumb.forEach((img,index)=>{
+                    if(index===active){
+                        img.classList.add("border")
+                    }
+                });
+            },3000);
+            running=true;
+        }else if(runningReverse===true){
+            clearInterval(autoplayReverse);
+            autoplay=setInterval(function(){
+                items[active].classList.remove("show");
+                actualThumb=document.querySelector(".border");
+                actualThumb.classList.remove("border");
+                if (active==items.length-1){
+                    active=0;
+                }else{
+                    active+=1;
+                }
+                items[active].classList.add("show");
+                items[active].append(thumbnail);
+                thumbnail.append(btnUp);
+                thumbnail.append(btnDown);
+                imgThumb.forEach((img,index)=>{
+                    if(index===active){
+                        img.classList.add("border")
+                    }
+                });
+            },3000);
+            running=true;
+            runningReverse=false;
+        }
+    });
+    btnReverse.addEventListener("click",function(){
+        if(running===false&&runningReverse===false){
+            autoplayReverse=setInterval(function(){
+                items[active].classList.remove("show");
+                actualThumb=document.querySelector(".border");
+                actualThumb.classList.remove("border");
+                if (active==0){
+                    active=items.length-1;
+                }else{
+                    active-=1;
+                }
+                items[active].classList.add("show");
+                items[active].append(thumbnail);
+                thumbnail.append(btnUp);
+                thumbnail.append(btnDown);
+                imgThumb.forEach((img,index)=>{
+                    if(index===active){
+                        img.classList.add("border")
+                    }
+                });
+            },3000);
+            runningReverse=true;
+        }else if(running===true){
+            clearInterval(autoplay);
+            autoplayReverse=setInterval(function(){
+                items[active].classList.remove("show");
+                actualThumb=document.querySelector(".border");
+                actualThumb.classList.remove("border");
+                if (active==0){
+                    active=items.length-1;
+                }else{
+                    active-=1;
+                }
+                items[active].classList.add("show");
+                items[active].append(thumbnail);
+                thumbnail.append(btnUp);
+                thumbnail.append(btnDown);
+                imgThumb.forEach((img,index)=>{
+                    if(index===active){
+                        img.classList.add("border")
+                    }
+                });
+            },3000);
+            runningReverse=true;
+            running=false;
+        }
+    });
+    btnStop.addEventListener("click",function(){
+        clearInterval(autoplay);
+        clearInterval(autoplayReverse);
+        running=false;
+        runningReverse=false;
+    });
     container.append(template);
     items=document.querySelectorAll(".item");
     items[active].classList.add("show");
@@ -126,22 +233,3 @@ imgThumb.forEach((img,index)=>{
         });
     });
 });
-const autoplay=setInterval(function(){
-    items[active].classList.remove("show");
-    actualThumb=document.querySelector(".border");
-    actualThumb.classList.remove("border");
-    if (active==items.length-1){
-        active=0;
-    }else{
-        active+=+1;
-    }
-    items[active].classList.add("show");
-    items[active].append(thumbnail);
-    thumbnail.append(btnUp);
-    thumbnail.append(btnDown);
-    imgThumb.forEach((img,index)=>{
-        if(index===active){
-            img.classList.add("border")
-        }
-    });
-},3000);
