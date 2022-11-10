@@ -17,7 +17,7 @@
 .item{
     display: none;
     position: relative;
-    width: 50rem;
+    width: 62.5rem;
     height: 25rem;
 }
 .show.item{
@@ -25,7 +25,7 @@
 }
 .image{
     height: 100%;
-    width: 80%;
+    width: 75%;
     object-fit: cover;
 }
 .btn{
@@ -46,10 +46,11 @@
     bottom: .5rem;
     translate: -50%;
     left: 50%;
+    z-index: 100;
 }
 .text{
     position: absolute;
-    right: 20%;
+    right: 25%;
     bottom:0;
     max-width: 80%;
     padding: .625rem .3125rem;
@@ -67,7 +68,7 @@
 .thumbnails{
     display: flex;
     flex-direction: column;
-    max-width: 20%;
+    max-width: 25%;
     position: relative;
 }
 .border{
@@ -84,4 +85,7 @@
 .btn.stop{
     left: 2.1875rem;
     top: .3125rem;
+}
+.thumbnails img:not(.border){
+    filter: grayscale(1);
 }

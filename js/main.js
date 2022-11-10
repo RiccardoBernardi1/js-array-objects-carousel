@@ -5,6 +5,7 @@
 // 4. Permettere alle immagini ciclare all'infinito nel carosello
 // 5. Aggiungere le thumbnails e l'evento click che ne renda visibile l'immagine 
 // 6. Aggiungere autoplay ogni 3 secondi
+
 const images = [
     {
         image: 'img/01.webp',
@@ -28,13 +29,41 @@ const images = [
         text: 'Marvel\'s Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.',
     }
 ];
-const container=document.querySelector(".container");
-const btnUp= document.createElement("button");
-const btnDown= document.createElement("button");
-btnUp.classList.add("btn","btn-up");
-btnDown.classList.add("btn","btn-down");
-btnDown.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
-btnUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+
+// FUNCTIONS
+
+function changeSlide(direction){
+    document.querySelector(".item.show").classList.remove("show");
+    actualThumb=document.querySelector(".border")
+    actualThumb.classList.remove("border");
+    if(direction==="next"){
+        if (active==items.length-1){
+            active=0;
+        }else{
+            active= active+1;
+        }
+    }else{
+        if (active==0){
+            active=items.length-1;
+        }else{
+            active= active-1;
+        }
+    }
+    appendThumbAndBtns();
+}
+function appendThumbAndBtns(){
+    items[active].append(thumbnail);
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
+    imgThumb.forEach((img,index)=>{
+        if(index===active){
+            img.classList.add("border")
+        }
+    });
+    items[active].classList.add("show");
+}
+// CONF
+
 let active =0;
 let items
 let thumbnail
@@ -46,6 +75,17 @@ let autoplay
 let autoplayReverse
 let running=false;
 let runningReverse=false;
+const container=document.querySelector(".container");
+const btnUp= document.createElement("button");
+const btnDown= document.createElement("button");
+
+// MAIN
+
+btnUp.classList.add("btn","btn-up");
+btnDown.classList.add("btn","btn-down");
+btnDown.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+btnUp.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+
 images.forEach((item) => {
     const template = document.getElementById("carousel-template").content.cloneNode(true);
     template.querySelector(".image").src = item.image;
@@ -57,45 +97,13 @@ images.forEach((item) => {
     btnStart.addEventListener("click",function(){
         if(running===false&&runningReverse===false){
             autoplay=setInterval(function(){
-                items[active].classList.remove("show");
-                actualThumb=document.querySelector(".border");
-                actualThumb.classList.remove("border");
-                if (active==items.length-1){
-                    active=0;
-                }else{
-                    active+=1;
-                }
-                items[active].classList.add("show");
-                items[active].append(thumbnail);
-                thumbnail.append(btnUp);
-                thumbnail.append(btnDown);
-                imgThumb.forEach((img,index)=>{
-                    if(index===active){
-                        img.classList.add("border")
-                    }
-                });
+                changeSlide("next")
             },3000);
             running=true;
         }else if(runningReverse===true){
             clearInterval(autoplayReverse);
             autoplay=setInterval(function(){
-                items[active].classList.remove("show");
-                actualThumb=document.querySelector(".border");
-                actualThumb.classList.remove("border");
-                if (active==items.length-1){
-                    active=0;
-                }else{
-                    active+=1;
-                }
-                items[active].classList.add("show");
-                items[active].append(thumbnail);
-                thumbnail.append(btnUp);
-                thumbnail.append(btnDown);
-                imgThumb.forEach((img,index)=>{
-                    if(index===active){
-                        img.classList.add("border")
-                    }
-                });
+                changeSlide("next")
             },3000);
             running=true;
             runningReverse=false;
@@ -104,45 +112,13 @@ images.forEach((item) => {
     btnReverse.addEventListener("click",function(){
         if(running===false&&runningReverse===false){
             autoplayReverse=setInterval(function(){
-                items[active].classList.remove("show");
-                actualThumb=document.querySelector(".border");
-                actualThumb.classList.remove("border");
-                if (active==0){
-                    active=items.length-1;
-                }else{
-                    active-=1;
-                }
-                items[active].classList.add("show");
-                items[active].append(thumbnail);
-                thumbnail.append(btnUp);
-                thumbnail.append(btnDown);
-                imgThumb.forEach((img,index)=>{
-                    if(index===active){
-                        img.classList.add("border")
-                    }
-                });
+                changeSlide("prev");
             },3000);
             runningReverse=true;
         }else if(running===true){
             clearInterval(autoplay);
             autoplayReverse=setInterval(function(){
-                items[active].classList.remove("show");
-                actualThumb=document.querySelector(".border");
-                actualThumb.classList.remove("border");
-                if (active==0){
-                    active=items.length-1;
-                }else{
-                    active-=1;
-                }
-                items[active].classList.add("show");
-                items[active].append(thumbnail);
-                thumbnail.append(btnUp);
-                thumbnail.append(btnDown);
-                imgThumb.forEach((img,index)=>{
-                    if(index===active){
-                        img.classList.add("border")
-                    }
-                });
+                changeSlide("prev");
             },3000);
             runningReverse=true;
             running=false;
@@ -165,56 +141,23 @@ images.forEach((item,index) => {
         appended=true;
     }
     thumbnail=document.querySelector(".thumbnails");
-    thumbnail.append(btnUp);
-    thumbnail.append(btnDown);
     thumb=document.createElement("img");
     thumb.src=item.image;
     thumb.id=index;
     if(active==thumb.id){
         thumb.classList.add("border");
     }
+    thumbnail.append(btnUp);
+    thumbnail.append(btnDown);
     thumbnail.append(thumb);
 });
 thumbnail=document.querySelector(".thumbnails");
 let imgThumb=document.querySelectorAll(".thumbnails img")
 btnUp.addEventListener("click",function() {
-    document.querySelector(".item.show").classList.remove("show");
-    actualThumb=document.querySelector(".border")
-    actualThumb.classList.remove("border");
-    if (active==0){
-        active=items.length-1;
-    }else{
-        active= active-1;
-    }
-    imgThumb.forEach((img,index)=>{
-        if(index===active){
-            img.classList.add("border")
-        }
-    });
-    items[active].classList.add("show");
-    items[active].append(thumbnail);
-    thumbnail.append(btnUp);
-    thumbnail.append(btnDown);
-    
+    changeSlide("prev");
 });
 btnDown.addEventListener("click",function() {
-    items[active].classList.remove("show");
-    actualThumb=document.querySelector(".border")
-    actualThumb.classList.remove("border");
-    if (active==items.length-1){
-        active=0;
-    }else{
-        active= active+1;
-    }
-    imgThumb.forEach((img,index)=>{
-        if(index===active){
-            img.classList.add("border")
-        }
-    });
-    items[active].classList.add("show");
-    items[active].append(thumbnail);
-    thumbnail.append(btnUp);
-    thumbnail.append(btnDown);
+    changeSlide("next");
 });
 imgThumb.forEach((img,index)=>{
     img.addEventListener("click",function(){
@@ -222,14 +165,6 @@ imgThumb.forEach((img,index)=>{
         actualThumb.classList.remove("border");
         items[active].classList.remove("show");
         active=index;
-        items[active].classList.add("show");
-        items[active].append(thumbnail);
-        thumbnail.append(btnUp);
-        thumbnail.append(btnDown);
-        imgThumb.forEach((img,index)=>{
-            if(index===active){
-                img.classList.add("border")
-            }
-        });
+        appendThumbAndBtns();
     });
 });
